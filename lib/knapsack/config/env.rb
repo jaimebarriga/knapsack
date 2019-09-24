@@ -18,6 +18,10 @@ module Knapsack
           ENV['KNAPSACK_TEST_FILE_PATTERN']
         end
 
+        def ignore_test_file_pattern
+          ENV['KNAPSACK_IGNORE_TEST_FILE_PATTERN']
+        end
+
         def test_dir
           ENV['KNAPSACK_TEST_DIR']
         end

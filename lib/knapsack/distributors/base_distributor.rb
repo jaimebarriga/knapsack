@@ -1,11 +1,12 @@
 module Knapsack
   module Distributors
     class BaseDistributor
-      attr_reader :report, :node_tests, :test_file_pattern
+      attr_reader :report, :node_tests, :test_file_pattern, :ignore_test_file_pattern
 
       def initialize(args={})
         @report = args[:report] || raise('Missing report')
         @test_file_pattern = args[:test_file_pattern] || raise('Missing test_file_pattern')
+        @ignore_test_file_pattern = args[:ignore_test_file_pattern]
         @ci_node_total = args[:ci_node_total] || raise('Missing ci_node_total')
         @ci_node_index = args[:ci_node_index] || raise('Missing ci_node_index')
 
@@ -37,7 +38,15 @@ module Knapsack
       end
 
       def all_tests
-        @all_tests ||= Dir.glob(test_file_pattern).uniq.sort
+        if @all_tests.nil?
+          all_tests = Dir.glob(test_file_pattern).uniq
+          if !ignore_test_file_pattern.nil?
+            all_tests = all_tests - Dir.glob(ignore_test_file_pattern).uniq
+          end
+          @all_tests = all_tests.sort
+        end
+
+        @all_tests
       end
 
       protected

@@ -36,6 +36,7 @@ describe Knapsack::AllocatorBuilder do
           {
             report: report,
             test_file_pattern: adapter_test_file_pattern,
+            ignore_test_file_pattern: nil,
             ci_node_total: env_ci_node_total,
             ci_node_index: env_ci_node_index
           }
@@ -51,6 +52,7 @@ describe Knapsack::AllocatorBuilder do
           {
             report: report,
             test_file_pattern: adapter_test_file_pattern,
+            ignore_test_file_pattern: nil,
             ci_node_total: env_ci_node_total,
             ci_node_index: env_ci_node_index
           }
@@ -66,6 +68,7 @@ describe Knapsack::AllocatorBuilder do
           {
             report: report,
             test_file_pattern: env_test_file_pattern,
+            ignore_test_file_pattern: nil,
             ci_node_total: env_ci_node_total,
             ci_node_index: env_ci_node_index
           }

@@ -112,6 +112,20 @@ describe Knapsack::Config::Env do
     end
   end
 
+  describe '.ignore_test_file_pattern' do
+    subject { described_class.ignore_test_file_pattern }
+
+    context 'when ENV exists' do
+      let(:ignore_test_file_pattern) { 'custom_spec/**{,/*/**}/*_spec.rb' }
+      before { stub_const("ENV", { 'KNAPSACK_IGNORE_TEST_FILE_PATTERN' => ignore_test_file_pattern }) }
+      it { should eql ignore_test_file_pattern }
+    end
+
+    context "when ENV doesn't exist" do
+      it { should be_nil }
+    end
+  end
+
   describe '.test_dir' do
     subject { described_class.test_dir }
 

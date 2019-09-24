@@ -8,10 +8,12 @@ describe Knapsack::Distributors::LeftoverDistributor do
     }
   end
   let(:test_file_pattern) { 'spec/**{,/*/**}/*_spec.rb' }
+  let(:ignore_test_file_pattern) { nil }
   let(:default_args) do
     {
       report: report,
       test_file_pattern: test_file_pattern,
+      ignore_test_file_pattern: ignore_test_file_pattern,
       ci_node_total: '1',
       ci_node_index: '0'
     }
@@ -45,6 +47,21 @@ describe Knapsack::Distributors::LeftoverDistributor do
         it { should_not be_empty }
         it { should include 'spec_examples/fast/1_spec.rb' }
         it { should include 'spec_examples/leftover/a_spec.rb' }
+
+        it 'has no duplicated test file paths' do
+          expect(subject.size).to eq subject.uniq.size
+        end
+      end
+    end
+
+    context 'when given test_file_pattern with ignore_test_file_pattern' do
+      let(:test_file_pattern) { 'spec_examples/**{,/*/**}/*_spec.rb' }
+      let(:ignore_test_file_pattern) { 'spec_examples/**{,/*/**}/a_spec.rb' }
+
+      context 'spec_examples/**{,/*/**}/*_spec.rb and ignore spec_examples/**{,/*/**}/a_spec.rb' do
+        it { should_not be_empty }
+        it { should include 'spec_examples/fast/1_spec.rb' }
+        it { should_not include 'spec_examples/leftover/a_spec.rb' }
 
         it 'has no duplicated test file paths' do
           expect(subject.size).to eq subject.uniq.size
