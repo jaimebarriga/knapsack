@@ -18,7 +18,7 @@ module Knapsack
     end
 
     def stringify_node_tests
-      node_tests
+      (Knapsack::Config::Env.shuffle_files ? node_tests.shuffle : node_tests)
       .map do |test_file|
         %{"#{test_file}"}
       end.join(' ')

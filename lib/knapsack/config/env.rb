@@ -34,6 +34,10 @@ module Knapsack
           }[ENV['KNAPSACK_LOG_LEVEL']] || Knapsack::Logger::INFO
         end
 
+        def shuffle_files
+          ENV.fetch('KNAPSACK_SHUFFLE_FILES', "0") == "1"
+        end
+
         private
 
         def index_starting_from_one(index)
