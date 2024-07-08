@@ -2,7 +2,7 @@ module Knapsack
   module Distributors
     class LeftoverDistributor < BaseDistributor
       def report_tests
-        @report_tests ||= report.keys
+        @report_tests ||= report.keys.map { |path| path.gsub(/\[\d+(:\d+)*\]/, '') }.uniq
       end
 
       def leftover_tests

@@ -31,6 +31,10 @@ module Knapsack
       Knapsack::Config::Env.report_path || @adapter_class::REPORT_PATH
     end
 
+    def report_depth
+      Knapsack::Config::Env.report_depth || @adapter_class::REPORT_DEPTH
+    end
+
     def test_file_pattern
       Knapsack::Config::Env.test_file_pattern || @adapter_class::TEST_DIR_PATTERN
     end

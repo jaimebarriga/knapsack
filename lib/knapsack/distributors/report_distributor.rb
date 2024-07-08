@@ -6,7 +6,7 @@ module Knapsack
       end
 
       def sorted_report_with_existing_tests
-        @sorted_report_with_existing_tests ||= sorted_report.select { |test_path, time| all_tests.include?(test_path) }
+        @sorted_report_with_existing_tests ||= sorted_report.select { |test_path, time| all_tests.include?(test_path) || all_tests.include?(test_path.sub(/\[\d+(\:\d+)+\]/, '')) }
       end
 
       def total_time_execution

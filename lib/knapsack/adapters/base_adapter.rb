@@ -4,6 +4,7 @@ module Knapsack
       # Just examples, please overwrite constants in subclasses
       TEST_DIR_PATTERN = 'test/**{,/*/**}/*_test.rb'
       REPORT_PATH = 'knapsack_base_report.json'
+      REPORT_DEPTH = 2
 
       def self.bind
         adapter = new
@@ -48,10 +49,12 @@ module Knapsack
       def update_report_config
         current_test_file_pattern = Knapsack.report.config[:test_file_pattern]
         current_report_path = Knapsack.report.config[:report_path]
+        current_report_depth = Knapsack.report.config[:report_depth]
 
         Knapsack.report.config({
           test_file_pattern: Knapsack::Config::Env.test_file_pattern || current_test_file_pattern || self.class::TEST_DIR_PATTERN,
-          report_path: Knapsack::Config::Env.report_path || current_report_path || self.class::REPORT_PATH
+          report_path: Knapsack::Config::Env.report_path || current_report_path || self.class::REPORT_PATH,
+          report_depth: Knapsack::Config::Env.report_depth ||current_report_depth ||  self.class::REPORT_DEPTH
         })
       end
     end

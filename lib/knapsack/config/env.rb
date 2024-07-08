@@ -6,6 +6,10 @@ module Knapsack
           ENV['KNAPSACK_REPORT_PATH']
         end
 
+        def report_depth
+          ENV['KNAPSACK_REPORT_DEPTH']
+        end
+
         def ci_node_total
           ENV['CI_NODE_TOTAL'] || ENV['CIRCLE_NODE_TOTAL'] || ENV['SEMAPHORE_JOB_COUNT'] || ENV['SEMAPHORE_THREAD_COUNT'] || ENV['BUILDKITE_PARALLEL_JOB_COUNT'] || ENV['SNAP_WORKER_TOTAL'] || ENV['BITBUCKET_PARALLEL_STEP_COUNT'] || 1
         end

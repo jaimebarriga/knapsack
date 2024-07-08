@@ -11,6 +11,10 @@ module Knapsack
           end
 
           config.prepend_before(:each) do |example|
+            if !Knapsack.tracker.test_path.nil? && Knapsack.tracker.test_path != RSpecAdapter.test_path(example)
+              Knapsack.tracker.stop_timer
+              Knapsack.tracker.start_timer
+            end
             Knapsack.tracker.test_path = RSpecAdapter.test_path(example)
           end
 
@@ -46,20 +50,40 @@ module Knapsack
 
       def self.test_path(example)
         example_group = example.metadata[:example_group]
+        lineage = []
 
         if defined?(::Turnip) && Gem::Version.new(::Turnip::VERSION) < Gem::Version.new('2.0.0')
           unless example_group[:turnip]
             until example_group[:parent_example_group].nil?
+              lineage << example_group
               example_group = example_group[:parent_example_group]
             end
           end
         else
           until example_group[:parent_example_group].nil?
+            lineage << example_group
             example_group = example_group[:parent_example_group]
           end
         end
-
-        example_group[:file_path]
+        begin
+          if !lineage.empty?
+            if !Knapsack.report.config[:report_depth].nil? && Knapsack.report.config[:report_depth] <= lineage.size
+              example_group = lineage[-Knapsack.report.config[:report_depth]]
+            else
+              example_group = lineage[-1]
+            end
+            puts "#{example_group[:file_path]}[#{example_group[:scoped_id]}]"
+            "#{example_group[:file_path]}[#{example_group[:scoped_id]}]"
+          else
+            example_group[:file_path]
+          end
+        rescue => e
+          puts !Knapsack.report.config[:report_depth].nil?
+          puts Knapsack.report.config[:report_depth] <= lineage.size
+          puts !Knapsack.report.config[:report_depth].nil? && Knapsack.report.config[:report_depth] <= lineage.size
+          puts "lineage: #{lineage}"
+          puts "example_group: #{example_group}"
+        end
       end
     end
 
